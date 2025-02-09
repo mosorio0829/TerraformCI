@@ -1,13 +1,21 @@
 terraform {
-  required_version = ">= 1.3.0"
-
+  required_version = ">=1.3.0"
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "3.43.0"
+      "source" = "hashicorp/azurerm"
+      version  = "3.43.0"
     }
   }
+      cloud { 
+      
+      organization = "maor-workspace" 
+
+      workspaces { 
+        name = "TerraformCI" 
+      } 
+    }
 }
+
 
 provider "azurerm" {
   features {}
@@ -15,13 +23,13 @@ provider "azurerm" {
 }
 
 resource "random_string" "uniquestring" {
-  length  = 20
-  special = false
-  upper   = false
+  length           = 20
+  special          = false
+  upper            = false
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "1-087cf9bf-playground-sandbox"
+  name     = "811-52882c59-provide-continuous-delivery-with-gith"
   location = "westus"
 }
 
