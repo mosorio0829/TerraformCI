@@ -1,0 +1,293 @@
+Introduction
+In this hands-on lab, you'll create a Git repository for Terraform for your Terraform infrastructure and configure continuous delivery (CD) using GitHub Actions and Terraform Cloud.
+
+Solution
+In this lab, you will be connecting to the VM using Remote Desktop and you will have access to the Azure portal.
+
+Note: To complete this lab, you will need to use a remote desktop client.
+
+Windows: Microsoft Remote Desktop on Windows 10
+MacOS: Microsoft Remote Desktop
+Linux: Remmina
+Use the Remote Desktop client to connect to the virtual machine:
+
+In the Azure portal, click Virtual machines in the left-hand menu.
+Click the listed lab-vm virtual machine.
+Click Connect.
+Click Download RDP File.
+Open the file in your Remote Desktop app.
+Edit the desktop to:
+Make sure you are not in an admin session.
+Make sure the remote session does not launch in full-screen mode.
+Set the resolution to something that will give you room to maneuver in both the remote and local desktops (e.g., 1024 x 768).
+Log in to the virtual machine using the following credentials:
+User Name: Enter the user name provided by the lab credentials.
+Password: Enter the password provided by the lab credentials.
+Note: If you're using a Mac, instead of downloading the RDP file, you will need to copy the public IP address of the virtual machine in the Azure Portal and use that to access the virtual machine via your RDP client.
+
+You will also need to create:
+
+Your own free Terraform Cloud account. You can sign up at Terraform Cloud.
+Your own free GitHub account. You can create one at GitHub.
+Set Up Your Environment
+Once you've logged in to the virtual machine, open a new browser window.
+Log in to the Azure portal using the credentials provided on the lab page. Be sure to use an incognito or private browser window to ensure you're using the lab account rather than your own.
+In a new browser window or tab, log in to your free account on Terraform Cloud.
+In a new browser window or tab, log in to your GitHub account.
+Create a GitHub Repository
+In the GitHub home page, select the Repositories tab.
+In the top right corner, click the New button to create a new repository.
+In the Create a new repository page, set the following paramters:
+Owner: Select yourself from the dropdown menu.
+Repository name: Enter TerraformCI.
+Add a README file: Check the box next to it.
+Add .gitignore: Enter terraform* and select Terraform from the dropdown menu.
+Click the Create repository button.
+Create a Workspace in Terraform Cloud
+Create a New Workspace
+Go to the browser window with Terraform Cloud open.
+In the left-hand navigation menu, select Projects & workspaces.
+Click the Create workspace button.
+Select API-driven workflow.
+Under Workspace Name, enter TerraformCI.
+Click the Create workspace button.
+Create Environment Variables
+In the left-hand navigation menu, select Variables.
+Click the + Add variable button.
+Select Environment variable.
+Under Key, enter ARM_SUBSCRIPTION_ID.
+Go to the browser window or tab with the Azure portal open and expand Essentials.
+Copy the ID next to Subscription ID.
+Return to the browser window or tab with Terraform Cloud open and paste the subscription ID under Value.
+Click the Add variable button.
+Click the + Add variable button.
+Select Environment variable.
+Under Key, enter ARM_CLIENT_ID.
+Go to the lab credentials and copy the ID under Application Client ID.
+Return to Terraform Cloud and paste the application client ID under Value.
+Click the Add variable button.
+Click the + Add variable button.
+Select Environment variable.
+Under Key, enter ARM_CLIENT_SECRET.
+Go to the lab credentials and copy the ID under Secret.
+Return to Terraform Cloud and paste the application client ID under Value.
+Click the checkbox next to Sensitive.
+Click the Add variable button.
+Click the + Add variable button.
+Select Environment variable.
+Under Key, enter ARM_TENANT_ID.
+Go to the browser window or tab with the Azure portal.
+In the search bar on top of the console, enter Azure Active Directory.
+Select Azure Active Directory from the search results.
+Copy the ID next to Tenant ID.
+Return to Terraform Cloud and paste the tenant ID under Value.
+Click the Add variable button.
+Configure Continuous Delivery
+Return to the browser window or tab with GitHub open.
+
+Click the Actions button.
+
+Click the Set up a workflow yourself link.
+
+Paste in the following YAML code:
+
+name: 'Terraform'
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: '**.tf'
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+      # Build or change infrastructure according to Terraform configuration files
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
+Click the Start commit button to commit this to the main branch.
+
+Select Settings.
+
+In the left-hand navigation menu, select Secrets and variables under Security.
+
+Select Actions.
+
+Click the New repository secret button.
+
+Under Name, enter TF_API_TOKEN.
+
+Return to the browser window or tab with Terraform Cloud open.
+
+In the left-hand navigation menu, click the user profile icon in the top right corner of the menu.
+
+From the menu, select User Settings.
+
+In the left-hand navigation menu, select Tokens.
+
+Click the Create an API token button.
+
+Under Description, enter GitHub Actions.
+
+Click the Create an API token button.
+
+Copy the generated token.
+
+Return to GitHub and paste the token under Secret.
+
+Click the Add secret button.
+
+Configure Branch Protection Rules
+In the left-hand navigation menu, under Code and automation, select Branches.
+Click the Add branch protection rule.
+Under Branch name pattern, enter main for the main branch.
+Click the checkbox next to Require a pull request before merging.
+Click the checkbox next to Do not allow bypassing the above settings.
+Click the Create button.
+Author the Configuration
+Clone the Git Repository
+Near to the top left of the page, select Code.
+Click the Code button.
+Copy the repository URL.
+Open Visual Studio Code. You can do this quickly by clicking the Visual Studio Code icon in the Windows taskbar at the bottom of the screen.
+Press Ctrl + Shift + P (or Cmd + Shift + P on a Mac) to open the Command Palette.
+Enter git clone.
+Select Git Clone from the results.
+Paste in the repository URL and press Enter.
+Select the Documents folder.
+Click the Select as Repository Destination button.
+When asked if you would like to open the cloned repository, click the Open button.
+Click the Yes, I trust the authors button.
+Create a New Branch
+In the bottom left corner of Visual Studio Code, click the Branches icon to create a new branch.
+Select + Create a new branch.
+Enter a name for the branch, such as add infrastructure.
+Open Windows Explorer by clicking the folder-shaped Windows Explorer icon in the Windows taskbar at the bottom of the screen.
+In the left-hand navigation menu, select This PC.
+Under Devices and drives, select Windows (C:).
+Click the Terraform folder.
+Copy the main.tf file by right-clicking on the file and selecting Copy.
+Return to Visual Studio Code and right-click in the left navigation pane.
+From the menu, select Reveal in Fire Explorer.
+Click the TerraformCI folder.
+Paste in the main.tf file by right-clicking and selecting Paste.
+In the left-hand navigation pane, select main.tf to open the file.
+Open the browser window or tab with Terraform Cloud open.
+In the left-hand navigation menu, click the Home icon in the top left corner of the menu.
+Select the TerraformCI workspace.
+Copy the cloud configuration block under Example code.
+Return to Visual Studio Code and paste the cloud configuration block under the terraform configuration block in the main.tf file.
+Save the file by pressing Ctrl + S (or Cmd ** S on a Mac).
+Publish the New Branch
+In the Visual Studio Code taskbar, select Terminal.
+
+Select New Terminal.
+
+In the terminal, log in to the Azure portal:
+
+az login
+This will take you to the browser, where you can sign in using the credentials provided.
+
+Select Cloud_Student. This will log you in to the Azure portal. You can close the browser tab afterward.
+
+Return to Visual Studio Code.
+
+Log in to Terraform:
+
+terraform login
+When prompted to enter a value, enter yes and press Enter to allow using the browser to log in and having Terraform request an API token.
+
+In the browser, click the Create API token button.
+
+Copy the generated API token.
+
+Return to Visual Studio Code and paste in the token after Enter a value:. This will allow you to successfully log in to Terraform Cloud in the terminal.
+
+Initialize the working directory and cloud backend in Terraform Cloud:
+
+terraform init
+Go to the browser window or tab with the Azure portal open.
+
+Click the Home link near the upper left corner.
+
+Select our resource group under Resources.
+
+Select the Properties tab.
+
+Copy the ID under Resource ID.
+
+Return to Visual Studio Code.
+
+In the terminal, import our existing resource group into the Terraform state:
+
+terraform import azurerm_resource_group.rg <resource ID from the Azure portal>
+Format the file by right-clicking and selecting Format Document (or press Shift + Option + F on Mac).
+
+Save the file by pressing Ctrl + S (or Cmd + S on a Mac).
+
+Confirm your user name on Git:
+
+git config user.name "<your name>"
+Confirm your email address on Git:
+
+git config user.email "<your email address>"
+In the icons on the left of Visual Studio Code, select the Source Control icon to navigate to the Source Control tab.
+
+Click the + icon next to the .terraform.lock.hcl file to stage the changes to the Terraform dependency lock file.
+
+Click the + icon next to the main.tf file to stage the changes to the main.tf file.
+
+Above the Commit button, enter a message stating what changes were made, such as *Adding infrastructure.
+
+Click the Commit button to commit the changes.
+
+Click the Publish Branch button. You may be asked to sign into your GitHub account. Because you're already signed in on the browser, you can click Sign in with your browser, open the browser, and click Continue. This should allow your branch to be successfully published.
+
+Create and Complete a Pull Request
+Go to the browser window or tab with GitHub open.
+Click the Compare & pull request button. (If you don't see a prompt with that button available, you can select the Pull requests tab.)
+Click the Create pull request button.
+Click the Settings tab.
+In the left-hand navigation menu, select Branches under Code and automation.
+Under Branch protection rules, click the Edit button.
+Uncheck the box next to Do not allow bypassing the above settings.
+Click the Save changes button.
+Select the Pull requests tab.
+Select your recently created pull request.
+Check the box next to Merge without waiting for requirements to be met (bypass branch protection).
+Click the Merge pull request button.
+Click the Confirm merge button.
+Review Results
+Select the Actions tab.
+Select the workflow listed under 1 workflow run.
+Select Terraform. You can see the stage at which the workflow is currently running.
+Once the workflow is complete, go to the browser window or tab with the Azure portal open.
+In the breadcrumb trail on top of the page, select the resource group.
+Select Refresh in the Azure portal. You may need to do this a couple times, but you should see the storage account is successfully created.
