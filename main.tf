@@ -6,14 +6,14 @@ terraform {
       version  = "3.43.0"
     }
   }
-      cloud { 
-      
-      organization = "maor-workspace" 
+  cloud {
 
-      workspaces { 
-        name = "TerraformCI" 
-      } 
+    organization = "maor-workspace"
+
+    workspaces {
+      name = "TerraformCI"
     }
+  }
 }
 
 
@@ -23,9 +23,9 @@ provider "azurerm" {
 }
 
 resource "random_string" "uniquestring" {
-  length           = 20
-  special          = false
-  upper            = false
+  length  = 20
+  special = false
+  upper   = false
 }
 
 resource "azurerm_resource_group" "rg" {
