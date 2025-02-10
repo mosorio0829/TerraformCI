@@ -4,7 +4,7 @@
 **
 Import state**
 
-![image](https://github.com/user-attachments/assets/e85fbf0e-3948-488e-97f5-5dd31ddaedba)
+![image](https://github.com/user-attachments/assets/9a6636a4-5078-4c1b-bec4-00cbfc846494)
 
 https://registry.terraform.io/
 
