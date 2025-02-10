@@ -29,8 +29,8 @@ resource "random_string" "uniquestring" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "811-52882c59-provide-continuous-delivery-with-gith"
-  location = "westus"
+  name     = "1-41bada24-playground-sandbox"
+  location = "EastUS"
 }
 
 resource "azurerm_storage_account" "storageaccount" {
