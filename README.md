@@ -25,5 +25,21 @@ https://registry.terraform.io/
 
 ![image](https://github.com/user-attachments/assets/f59725bc-76b2-4a2b-971c-81754c23d889)
 
+**Migrate Terraform state to Terraform Cloud**
+
+![image](https://github.com/user-attachments/assets/6541f31c-4c35-4b5d-b6a5-8011a8ab6e91)
+
+![image](https://github.com/user-attachments/assets/b8322bb6-b0f9-4d5d-a50d-ca7b6d099776)
+
+![image](https://github.com/user-attachments/assets/5238890e-8ef0-46db-afda-e2a9f0c58c80)
+
+![image](https://github.com/user-attachments/assets/ed5aa9c8-927f-40f1-b6e6-c5faa0c0986d)
+
+![image](https://github.com/user-attachments/assets/370b2a34-bd1c-4dd5-9da4-e5d92117a6bb)
+
+![image](https://github.com/user-attachments/assets/db943985-3dec-4409-b19e-022171a34712)
+
+![image](https://github.com/user-attachments/assets/a7b9fa46-33d0-49ea-9d44-9c07fe103110)
+
 
 
