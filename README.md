@@ -1,8 +1,8 @@
 # TerraformCI / DOCUMENTATION
 
 **Link**: https://www.linkedin.com/posts/activity-7292114216109408256-7Fh5?utm_medium=ios_app&rcm=ACoAAAscb-8BpjwyHnGE9vg28WqAqX-v515HhQ0&utm_source=social_share_send&utm_campaign=share_via 
-**
-Import state**
+
+**Import state**
 
 ![image](https://github.com/user-attachments/assets/9a6636a4-5078-4c1b-bec4-00cbfc846494)
 
