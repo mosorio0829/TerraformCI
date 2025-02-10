@@ -45,9 +45,7 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches: [ "main" ]
-    paths: '**.tf'
+  workflow_dispatch:  # This allows manual triggering of the workflow
 
 permissions:
   contents: read
